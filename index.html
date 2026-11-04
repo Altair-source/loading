@@ -33,9 +33,12 @@
     h1 { margin:8px 0 8px; font-weight:800; letter-spacing:.025em; font-size:clamp(27px,5vw,43px); line-height:1.05; text-shadow:0 3px 25px rgba(0,0,0,.4); }
     .subtitle { margin:0; font-size:13px; color:rgba(255,255,255,.73); letter-spacing:.05em; }
     .loader { width:min(250px,70vw); margin:27px auto 0; }
-    .loading-track { height:5px; overflow:hidden; border-radius:8px; background:rgba(255,255,255,.26); box-shadow:0 1px 6px rgba(0,0,0,.14); }
-    .loading-fill { height:100%; width:38%; border-radius:inherit; background:linear-gradient(90deg,#4cc5ff,#b8edff); box-shadow:0 0 13px rgba(71,192,255,.8); animation:loading 1.8s cubic-bezier(.45,.05,.55,.95) infinite; }
-    .loader-caption { display:flex; justify-content:space-between; align-items:center; margin-top:10px; color:rgba(255,255,255,.7); font-size:9px; letter-spacing:.13em; text-transform:uppercase; }
+    .loading-track { height:12px; padding:2px; overflow:hidden; border:1px solid rgba(255,255,255,.22); border-radius:2px; background:rgba(20,25,30,.78); box-shadow:0 1px 8px rgba(0,0,0,.28); }
+    .loading-fill { height:100%; width:0; border-radius:1px; background:repeating-linear-gradient(90deg,#f4f6f8 0 6px,#cbd1d6 6px 8px); box-shadow:0 0 8px rgba(255,255,255,.28); transition:width .25s ease; }
+    .loading-fill.indeterminate { width:38%; background:repeating-linear-gradient(90deg,#f4f6f8 0 6px,#cbd1d6 6px 8px); animation:loading 1.8s cubic-bezier(.45,.05,.55,.95) infinite; }
+    .loader-caption { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-top:10px; color:rgba(255,255,255,.7); font-size:9px; letter-spacing:.08em; }
+    .loader-message { min-width:0; max-width:205px; overflow:hidden; white-space:nowrap; text-overflow:ellipsis; text-align:left; }
+    .progress-value { flex:none; color:rgba(255,255,255,.68); font-size:8px; letter-spacing:.1em; text-transform:uppercase; }
     .pulse { display:inline-block; width:5px;height:5px;border-radius:50%;margin-right:7px;vertical-align:1px;background:#83daff;animation:pulse 1s infinite alternate; }
     .footer { position:absolute; z-index:3; left:34px; right:34px; bottom:25px; display:flex; justify-content:space-between; align-items:flex-end; color:var(--white); }
     .photo-note { max-width:380px; text-shadow:0 2px 14px rgba(0,0,0,.8); }
@@ -45,7 +48,6 @@
     .scene-count { font-size:10px; letter-spacing:.14em; color:rgba(255,255,255,.78); margin-right:8px; font-variant-numeric:tabular-nums; }
     .dot { cursor:pointer; border:0; padding:0; width:5px; height:5px; border-radius:6px; background:rgba(255,255,255,.45); transition:all .25s ease; }
     .dot.active { width:22px; background:#fff; }
-to{width:94%} }
     @keyframes loading { 0%{transform:translateX(-120%)} 100%{transform:translateX(360%)} }
     @keyframes pulse { to{opacity:.35;transform:scale(.8)} }
     @keyframes rise { from{opacity:0;transform:translate(-50%,-46%)} to{opacity:1;transform:translate(-50%,-50%)} }
@@ -55,7 +57,7 @@ to{width:94%} }
 </head>
 <body>
   <main class="experience" aria-label="Garry's Mod loading page">
-    <div class="scene active" id="sceneA" aria-hidden="true"></div>
+    <div class="scene active" id="sceneA" aria-hidden="true" style="background-image:url('https://dl.dropboxusercontent.com/scl/fi/jcmlq09io6l05tjjewgpl/scene-01.jpg?rlkey=zr9vrrs3tv197x3vvupiztt03')"></div>
     <div class="scene" id="sceneB" aria-hidden="true"></div>
     <div class="shade"></div><div class="grain"></div>
     <header class="topbar">
@@ -63,13 +65,13 @@ to{width:94%} }
       <div class="top-right"><i class="live-dot"></i><span>SERVER CONNECTING</span></div>
     </header>
     <section class="center-stage" aria-live="polite">
-      <div class="mark-wrap" aria-label="Garry's Mod logo"><img class="gmod-logo" src="https://www.dropbox.com/scl/fi/n9y2sr3zx7aawpkuuwdxu/gmod-logo.png?rlkey=0rvn5dmi48eywhapnnic9ts5o&amp;st=mo5lbnla&amp;raw=1" alt="Garry's Mod"><img class="gmod-loader-icon" src="https://www.dropbox.com/scl/fi/uvowd2cmto6rciedhfeox/gmod-loader-icon.png?rlkey=ec6j9e3dvn00u4m7xmrunodwr&amp;st=ofcsjl0j&amp;raw=1" alt=""></div>
+      <div class="mark-wrap" aria-label="Garry's Mod logo"><img class="gmod-logo" src="https://dl.dropboxusercontent.com/scl/fi/n9y2sr3zx7aawpkuuwdxu/gmod-logo.png?rlkey=0rvn5dmi48eywhapnnic9ts5o" alt="Garry's Mod"><img class="gmod-loader-icon" src="https://dl.dropboxusercontent.com/scl/fi/uvowd2cmto6rciedhfeox/gmod-loader-icon.png?rlkey=ec6j9e3dvn00u4m7xmrunodwr" alt=""></div>
       <div class="eyebrow">Sandbox Server</div>
       <h1>에이브의 자유서버</h1>
       <p class="subtitle">샌드박스 서버 · 규칙을 준수하며 자유롭게 즐겨 주세요</p>
       <div class="loader" aria-label="Loading">
-        <div class="loading-track"><div class="loading-fill"></div></div>
-        <div class="loader-caption"><span><i class="pulse"></i><span id="status">서버 정보 불러오는 중</span></span><span>LOADING</span></div>
+        <div class="loading-track" id="loadingTrack" role="progressbar" aria-label="Garry's Mod download progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div class="loading-fill indeterminate" id="loadingFill"></div></div>
+        <div class="loader-caption"><span class="loader-message" title="서버 연결 대기 중"><i class="pulse"></i><span id="status">서버 연결 대기 중</span></span><span class="progress-value" id="progressValue">LOADING</span></div>
       </div>
     </section>
     <footer class="footer">
@@ -80,32 +82,70 @@ to{width:94%} }
   <script>
     (function(){
       var scenes = [
-        {file:"https://www.dropbox.com/scl/fi/jcmlq09io6l05tjjewgpl/scene-01.jpg?rlkey=zr9vrrs3tv197x3vvupiztt03&st=x0nuvs08&raw=1", title:"샌드박스 월드", caption:"도구와 소품으로 자유롭게 만들고 실험해 보세요."},
-        {file:"https://www.dropbox.com/scl/fi/jotu77s6hojoydv3467s1/scene-02.jpg?rlkey=39sbdtnu71l9ghvx1s3fkh9rp&st=b2m8xh79&raw=1", title:"차량 스폰", caption:"차량을 소환해 맵 곳곳을 달려 보세요."},
-        {file:"https://www.dropbox.com/scl/fi/zg0jgg7ept9bdasgh1in6/scene-03.jpg?rlkey=qe9oaf729pb2gui0oq9jy16qy&st=nf820eyw&raw=1", title:"자유로운 건축", caption:"친구들과 함께 공간을 꾸미고 장면을 만들어 보세요."},
-        {file:"https://www.dropbox.com/scl/fi/ele7t1nujlzw73g2ffb6a/scene-04.jpg?rlkey=rn1m7az8aunyjamaxiljoks4k&st=1yi08cjs&raw=1", title:"맵 탐험", caption:"맵을 자유롭게 돌아다니며 샌드박스를 즐겨 보세요."},
-        {file:"https://www.dropbox.com/scl/fi/n37l3pl4cqtth28yfad74/scene-05.jpg?rlkey=ki89hayfa2fa4f55enwna8v5i&st=t9qqveka&raw=1", title:"소품 실험", caption:"다양한 소품과 도구로 원하는 걸 만들어 보세요."},
-        {file:"https://www.dropbox.com/scl/fi/1a8reu58nlt00ct7l93sl/scene-06.jpg?rlkey=mvvxtkj1k2cn3a6zr2t3l5x11&st=329y3rtp&raw=1", title:"툴 활용", caption:"도구를 사용해 소품을 배치하고 조립해 보세요."},
-        {file:"https://www.dropbox.com/scl/fi/fz8f419e4rjsmt8mjwa7b/scene-07.jpg?rlkey=51tsps74waghqazk7qh220raw&st=g2os7xsf&raw=1", title:"함께 만드는 샌드박스", caption:"상상한 장면을 만들고 친구들과 함께 즐겨 보세요."}
+        {file:"https://dl.dropboxusercontent.com/scl/fi/jcmlq09io6l05tjjewgpl/scene-01.jpg?rlkey=zr9vrrs3tv197x3vvupiztt03", title:"샌드박스 월드", caption:"도구와 소품으로 자유롭게 만들고 실험해 보세요."},
+        {file:"https://dl.dropboxusercontent.com/scl/fi/jotu77s6hojoydv3467s1/scene-02.jpg?rlkey=39sbdtnu71l9ghvx1s3fkh9rp", title:"차량 스폰", caption:"차량을 소환해 맵 곳곳을 달려 보세요."},
+        {file:"https://dl.dropboxusercontent.com/scl/fi/zg0jgg7ept9bdasgh1in6/scene-03.jpg?rlkey=qe9oaf729pb2gui0oq9jy16qy", title:"자유로운 건축", caption:"친구들과 함께 공간을 꾸미고 장면을 만들어 보세요."},
+        {file:"https://dl.dropboxusercontent.com/scl/fi/ele7t1nujlzw73g2ffb6a/scene-04.jpg?rlkey=rn1m7az8aunyjamaxiljoks4k", title:"맵 탐험", caption:"맵을 자유롭게 돌아다니며 샌드박스를 즐겨 보세요."},
+        {file:"https://dl.dropboxusercontent.com/scl/fi/n37l3pl4cqtth28yfad74/scene-05.jpg?rlkey=ki89hayfa2fa4f55enwna8v5i", title:"소품 실험", caption:"다양한 소품과 도구로 원하는 걸 만들어 보세요."},
+        {file:"https://dl.dropboxusercontent.com/scl/fi/1a8reu58nlt00ct7l93sl/scene-06.jpg?rlkey=mvvxtkj1k2cn3a6zr2t3l5x11", title:"툴 활용", caption:"도구를 사용해 소품을 배치하고 조립해 보세요."},
+        {file:"https://dl.dropboxusercontent.com/scl/fi/fz8f419e4rjsmt8mjwa7b/scene-07.jpg?rlkey=51tsps74waghqazk7qh220raw", title:"함께 만드는 샌드박스", caption:"상상한 장면을 만들고 친구들과 함께 즐겨 보세요."}
       ];
       var a = document.getElementById("sceneA"), b = document.getElementById("sceneB");
       var title = document.getElementById("sceneTitle"), caption = document.getElementById("sceneCaption");
       var dots = document.getElementById("dots");
-      var current = 0, showingA = true, interval;
+      var statusNode = document.getElementById("status"), statusBox = statusNode.parentNode;
+      var loadingFill = document.getElementById("loadingFill"), loadingTrack = document.getElementById("loadingTrack");
+      var progressValue = document.getElementById("progressValue");
+      var filesTotal = 0, filesNeeded = null;
+      var current = 0, showingA = true, interval, sceneRequest = 0;
+      function setStatus(message){
+        var text = String(message || "Connecting to server...");
+        statusNode.textContent = text;
+        statusBox.title = text;
+      }
+      function updateProgress(){
+        if(!filesTotal || filesNeeded === null){
+          progressValue.textContent = "LOADING";
+          loadingTrack.setAttribute("aria-valuenow", "0");
+          loadingFill.classList.add("indeterminate");
+          return;
+        }
+        var percent = Math.max(0, Math.min(100, Math.round((filesTotal - filesNeeded) / filesTotal * 100)));
+        loadingFill.classList.remove("indeterminate");
+        loadingFill.style.width = percent + "%";
+        loadingTrack.setAttribute("aria-valuenow", String(percent));
+        progressValue.textContent = percent + "%";
+      }
+      // Garry's Mod calls these callbacks while joining. Status text is supplied by the game,
+      // so phases such as "Starting Lua..." and individual download names stay in sync.
+      window.GameDetails = function(servername, serverurl, mapname, maxplayers, steamid, gamemode){
+        if(servername) document.title = servername + " — 접속 중";
+      };
+      window.SetStatusChanged = function(status){ setStatus(status); };
+      window.DownloadingFile = function(fileName){ setStatus("Downloading " + String(fileName || "file") + "..."); };
+      window.SetFilesTotal = function(total){ filesTotal = Math.max(0, Number(total) || 0); updateProgress(); };
+      window.SetFilesNeeded = function(needed){ filesNeeded = Math.max(0, Number(needed) || 0); updateProgress(); };
       function setScene(index){
-        current = (index + scenes.length) % scenes.length;
+        var nextIndex = (index + scenes.length) % scenes.length;
         var next = showingA ? b : a;
         var prev = showingA ? a : b;
-        next.style.backgroundImage = "url('" + scenes[current].file + "')";
-        next.classList.add("active"); prev.classList.remove("active"); showingA = !showingA;
-        title.textContent = scenes[current].title; caption.textContent = scenes[current].caption;
-        var all = dots.querySelectorAll("button");
-        for(var i=0;i<all.length;i++){ all[i].classList.toggle("active", i===current); all[i].setAttribute("aria-current", i===current ? "true" : "false"); }
+        var request = ++sceneRequest;
+        var image = new Image();
+        image.onload = function(){
+          if(request !== sceneRequest) return;
+          next.style.backgroundImage = "url('" + scenes[nextIndex].file + "')";
+          next.classList.add("active"); prev.classList.remove("active"); showingA = !showingA; current = nextIndex;
+          title.textContent = scenes[current].title; caption.textContent = scenes[current].caption;
+          var all = dots.querySelectorAll("button");
+          for(var i=0;i<all.length;i++){ all[i].classList.toggle("active", i===current); all[i].setAttribute("aria-current", i===current ? "true" : "false"); }
+        };
+        image.onerror = function(){ if(request === sceneRequest) setStatus("배경 이미지 연결 실패 · Dropbox 링크를 확인해 주세요"); };
+        image.src = scenes[nextIndex].file;
       }
       scenes.forEach(function(scene, index){
         var dot = document.createElement("button"); dot.type="button"; dot.className="dot"; dot.setAttribute("aria-label", "배경 " + (index+1) + " 보기");
         dot.addEventListener("click", function(){ setScene(index); restart(); }); dots.appendChild(dot);
-        var image = new Image(); image.src = scene.file;
+        // Dropbox direct-content URLs are loaded one scene at a time to avoid showing a blank background while loading.
       });
       function restart(){ clearInterval(interval); interval=setInterval(function(){setScene(current+1);},6500); }
       setScene(0); restart();
