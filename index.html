@@ -11,11 +11,11 @@
     html,body { width:100%; height:100%; margin:0; overflow:hidden; background:#10151b; font-family:Inter,"Noto Sans KR","Malgun Gothic",sans-serif; }
     button { font:inherit; }
     .experience { position:relative; width:100%; height:100%; isolation:isolate; overflow:hidden; background:#10151b; }
-    .scene { position:absolute; inset:0; z-index:0; display:block; width:100%; height:100%; object-fit:cover; opacity:0; transform:scale(1.045); transition:opacity 1.6s ease, transform 7s ease; }
+    .scene { position:absolute; top:0; left:0; z-index:0; display:block; width:100%; height:100%; object-fit:cover; opacity:0; transform:scale(1.045); transition:opacity 1.6s ease, transform 7s ease; }
     .scene.active { opacity:1; transform:scale(1); }
-    .shade { position:absolute; inset:0; z-index:1; background:linear-gradient(180deg,rgba(8,13,20,.32),rgba(8,13,20,.22) 35%,rgba(8,13,20,.68)),linear-gradient(90deg,rgba(8,13,20,.35),transparent 70%); }
-    .grain { position:absolute; inset:0; z-index:4; pointer-events:none; opacity:.09; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"); }
-    .topbar { position:absolute; z-index:3; inset:28px 34px auto; display:flex; justify-content:space-between; align-items:center; z-index:2; color:var(--white); letter-spacing:.14em; font-size:10px; font-weight:700; text-transform:uppercase; }
+    .shade { position:absolute; top:0; right:0; bottom:0; left:0; z-index:1; background-color:rgba(8,13,20,.22); background-image:linear-gradient(180deg,rgba(8,13,20,.32),rgba(8,13,20,.22) 35%,rgba(8,13,20,.68)),linear-gradient(90deg,rgba(8,13,20,.35),transparent 70%); }
+    .grain { position:absolute; top:0; right:0; bottom:0; left:0; z-index:4; pointer-events:none; opacity:.09; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"); }
+    .topbar { position:absolute; top:28px; left:34px; right:34px; display:flex; justify-content:space-between; align-items:center; z-index:2; color:var(--white); letter-spacing:.14em; font-size:10px; font-weight:700; text-transform:uppercase; }
     .brand-mini { display:flex; align-items:center; gap:10px; }
     .brand-dot { width:8px; height:8px; border-radius:2px; background:#39aaff; box-shadow:0 0 18px #1598ed; transform:rotate(12deg); }
     .top-right { color:rgba(255,255,255,.65); display:flex; align-items:center; gap:9px; }
@@ -51,7 +51,7 @@
     @keyframes loading { 0%{transform:translateX(-120%)} 100%{transform:translateX(360%)} }
     @keyframes pulse { to{opacity:.35;transform:scale(.8)} }
     @keyframes rise { from{opacity:0;transform:translate(-50%,-46%)} to{opacity:1;transform:translate(-50%,-50%)} }
-    @media(max-width:600px){ .topbar{inset:20px 18px auto;font-size:9px}.footer{left:18px;right:18px;bottom:18px}.center-stage{top:50%}.photo-note span{max-width:220px;line-height:1.5}.scene-count{margin-right:3px}.dot{width:4px;height:4px}.dot.active{width:15px}.top-right{font-size:8px} }
+    @media(max-width:600px){ .topbar{top:20px;left:18px;right:18px;font-size:9px}.footer{left:18px;right:18px;bottom:18px}.center-stage{top:50%}.photo-note span{max-width:220px;line-height:1.5}.scene-count{margin-right:3px}.dot{width:4px;height:4px}.dot.active{width:15px}.top-right{font-size:8px} }
     @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
   </style>
 </head>
@@ -82,10 +82,10 @@
   <script>
     (function(){
       var scenes = [
-        {file:"https://dl.dropboxusercontent.com/scl/fi/jcmlq09io6l05tjjewgpl/scene-01.png?rlkey=zr9vrrs3tv197x3vvupiztt03", title:"샌드박스 월드", caption:"도구와 소품으로 자유롭게 만들고 실험해 보세요."},
-        {file:"https://dl.dropboxusercontent.com/scl/fi/jotu77s6hojoydv3467s1/scene-02.png?rlkey=39sbdtnu71l9ghvx1s3fkh9rp", title:"차량 스폰", caption:"차량을 소환해 맵 곳곳을 달려 보세요."},
-        {file:"https://dl.dropboxusercontent.com/scl/fi/zg0jgg7ept9bdasgh1in6/scene-03.png?rlkey=qe9oaf729pb2gui0oq9jy16qy", title:"자유로운 건축", caption:"친구들과 함께 공간을 꾸미고 장면을 만들어 보세요."},
-        {file:"https://dl.dropboxusercontent.com/scl/fi/ele7t1nujlzw73g2ffb6a/scene-04.png?rlkey=rn1m7az8aunyjamaxiljoks4k", title:"맵 탐험", caption:"맵을 자유롭게 돌아다니며 샌드박스를 즐겨 보세요."}
+        {file:"https://dl.dropboxusercontent.com/scl/fi/jcmlq09io6l05tjjewgpl/scene-01.jpg?rlkey=zr9vrrs3tv197x3vvupiztt03", title:"샌드박스 월드", caption:"도구와 소품으로 자유롭게 만들고 실험해 보세요."},
+        {file:"https://dl.dropboxusercontent.com/scl/fi/jotu77s6hojoydv3467s1/scene-02.jpg?rlkey=39sbdtnu71l9ghvx1s3fkh9rp", title:"차량 스폰", caption:"차량을 소환해 맵 곳곳을 달려 보세요."},
+        {file:"https://dl.dropboxusercontent.com/scl/fi/zg0jgg7ept9bdasgh1in6/scene-03.jpg?rlkey=qe9oaf729pb2gui0oq9jy16qy", title:"자유로운 건축", caption:"친구들과 함께 공간을 꾸미고 장면을 만들어 보세요."},
+        {file:"https://dl.dropboxusercontent.com/scl/fi/ele7t1nujlzw73g2ffb6a/scene-04.jpg?rlkey=rn1m7az8aunyjamaxiljoks4k", title:"맵 탐험", caption:"맵을 자유롭게 돌아다니며 샌드박스를 즐겨 보세요."}
       ];
       var a = document.getElementById("sceneA"), b = document.getElementById("sceneB");
       var title = document.getElementById("sceneTitle"), caption = document.getElementById("sceneCaption");
