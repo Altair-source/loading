@@ -11,7 +11,7 @@
     html,body { width:100%; height:100%; margin:0; overflow:hidden; background:#10151b; font-family:Inter,"Noto Sans KR","Malgun Gothic",sans-serif; }
     button { font:inherit; }
     .experience { position:relative; width:100%; height:100%; isolation:isolate; overflow:hidden; background:#10151b; }
-    .scene { position:absolute; inset:0; z-index:0; background-position:center; background-size:cover; opacity:0; transform:scale(1.045); transition:opacity 1.6s ease, transform 7s ease; }
+    .scene { position:absolute; inset:0; z-index:0; display:block; width:100%; height:100%; object-fit:cover; opacity:0; transform:scale(1.045); transition:opacity 1.6s ease, transform 7s ease; }
     .scene.active { opacity:1; transform:scale(1); }
     .shade { position:absolute; inset:0; z-index:1; background:linear-gradient(180deg,rgba(8,13,20,.32),rgba(8,13,20,.22) 35%,rgba(8,13,20,.68)),linear-gradient(90deg,rgba(8,13,20,.35),transparent 70%); }
     .grain { position:absolute; inset:0; z-index:4; pointer-events:none; opacity:.09; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E"); }
@@ -57,8 +57,8 @@
 </head>
 <body>
   <main class="experience" aria-label="Garry's Mod loading page">
-    <div class="scene active" id="sceneA" aria-hidden="true" style="background-image:url('https://dl.dropboxusercontent.com/scl/fi/jcmlq09io6l05tjjewgpl/scene-01.jpg?rlkey=zr9vrrs3tv197x3vvupiztt03')"></div>
-    <div class="scene" id="sceneB" aria-hidden="true"></div>
+    <img class="scene active" id="sceneA" src="https://dl.dropboxusercontent.com/scl/fi/jcmlq09io6l05tjjewgpl/scene-01.jpg?rlkey=zr9vrrs3tv197x3vvupiztt03" alt="샌드박스 월드">
+    <img class="scene" id="sceneB" alt="">
     <div class="shade"></div><div class="grain"></div>
     <header class="topbar">
       <div class="brand-mini"><i class="brand-dot"></i><span>에이브의 자유서버</span></div>
@@ -127,17 +127,16 @@
         var next = showingA ? b : a;
         var prev = showingA ? a : b;
         var request = ++sceneRequest;
-        var image = new Image();
-        image.onload = function(){
+        next.onload = function(){
           if(request !== sceneRequest) return;
-          next.style.backgroundImage = "url('" + scenes[nextIndex].file + "')";
           next.classList.add("active"); prev.classList.remove("active"); showingA = !showingA; current = nextIndex;
+          next.alt = scenes[current].title;
           title.textContent = scenes[current].title; caption.textContent = scenes[current].caption;
           var all = dots.querySelectorAll("button");
           for(var i=0;i<all.length;i++){ all[i].classList.toggle("active", i===current); all[i].setAttribute("aria-current", i===current ? "true" : "false"); }
         };
-        image.onerror = function(){ if(request === sceneRequest) setStatus("배경 이미지 연결 실패 · Dropbox 링크를 확인해 주세요"); };
-        image.src = scenes[nextIndex].file;
+        next.onerror = function(){ if(request === sceneRequest) setStatus("배경 이미지 연결 실패 · Dropbox 링크를 확인해 주세요"); };
+        next.src = scenes[nextIndex].file;
       }
       scenes.forEach(function(scene, index){
         var dot = document.createElement("button"); dot.type="button"; dot.className="dot"; dot.setAttribute("aria-label", "배경 " + (index+1) + " 보기");
